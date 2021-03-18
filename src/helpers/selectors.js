@@ -1,31 +1,21 @@
 function getAppointmentsForDay(state, day){
     console.log(state);
-    function sortDay(days) {
-        const filteredDays = []
-        for (const each of state.days){
-            if (each["name"] === day){
-                filteredDays.push(each)
-            }
-        }
-        if (filteredDays.length > 0){
-        const filteredAppointments = []
-        for (const each in state.appointments){
-            console.log(state.appointments[`${each}`]);
-            console.log(typeof each);
-            for(const apt of filteredDays[0]["appointments"]){
-                console.log(typeof apt);
-                if (each == apt){
-                    filteredAppointments.push(state.appointments[`${each}`]);
-                }
-            }
-        }
-        console.log(filteredAppointments);
-        return filteredAppointments;
-        } else {
-            return filteredDays;
-        }
-    } 
-    return(sortDay(state.days));
+    // state.days is an array of day objects
+    // day object has id, name, appointments array of ids
+    // and interviews array of ids and spots remaining as number
+    const chosenDay = state.days.find((dayContainer) => {
+        return dayContainer.name === day;
+    });
+    if (chosenDay) {
+        const relevantAppointments = chosenDay.appointments.map((appointmentID) => state.appointments[appointmentID]);
+        console.log('relevantAppointments:', relevantAppointments);
+        return relevantAppointments;
+
+    } else {
+        console.log('no chosen day');
+        return [];
+    }
+
 }
 
 module.exports = { getAppointmentsForDay }
