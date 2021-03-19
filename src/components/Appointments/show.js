@@ -2,8 +2,6 @@ import React from "react";
 import "./styles.scss";
 
 export default function Show(props) {
-    console.log(props.student);
-    console.log(props.interviewer);
     return (
         <main className="appointment__card appointment__card--show">
   <section className="appointment__card-left">

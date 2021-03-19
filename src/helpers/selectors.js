@@ -1,5 +1,4 @@
 function getAppointmentsForDay(state, day){
-    console.log(state);
     // state.days is an array of day objects
     // day object has id, name, appointments array of ids
     // and interviews array of ids and spots remaining as number
@@ -8,14 +7,24 @@ function getAppointmentsForDay(state, day){
     });
     if (chosenDay) {
         const relevantAppointments = chosenDay.appointments.map((appointmentID) => state.appointments[appointmentID]);
-        console.log('relevantAppointments:', relevantAppointments);
         return relevantAppointments;
 
     } else {
-        console.log('no chosen day');
         return [];
     }
 
 }
 
-module.exports = { getAppointmentsForDay }
+function getInterview(state, interview){
+    if(interview !== null){
+        const selectedInterview = {
+            student: interview.student,
+            interviewer: state.interviewers[`${interview.interviewer}`]
+        }
+        return selectedInterview;
+    } else {
+        return null;
+    }
+}
+
+module.exports = { getAppointmentsForDay, getInterview }
