@@ -3,10 +3,12 @@ import "./styles.scss";
 import Header from "./header";
 import Show from "./show";
 import Empty from "./empty";
+import Form from "./form";
 import useVisualMode from "../../hooks/useVisualMode";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
+const CREATE = "CREATE";
 
 export default function Appointment(props) {
     const { mode, transition, back } = useVisualMode(
@@ -17,7 +19,8 @@ export default function Appointment(props) {
         <Header 
         time={props.time}
         />
-       {mode === EMPTY && <Empty onAdd={() => console.log("Clicked onAdd")} />}
+       {mode === EMPTY && <Empty onAdd={() => transition("CREATE")} />}
+       {mode === CREATE && <Form interviewers={[]} onCancel = {back}/>}
 {mode === SHOW && (
   <Show
     student={props.interview.student}
