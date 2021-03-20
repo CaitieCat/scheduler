@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"
 import DayList from "./DayList";
 import Appointment from "./Appointments/Index"
-import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "../helpers/selectors.js"
+import { getAppointmentsForDay, getInterviewersForDay} from "../helpers/selectors.js"
 import "components/Application.scss";
 
 
@@ -51,9 +51,34 @@ export default function Application(props) {
           ...state,
           appointments
         })
-       ) .catch(e =>
+       ).catch(e =>
         console.log("Error message:", e)
        )
+    }
+    //function to edit appointments 
+    function editInterview(id, interview){
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      setState({
+        ...state,
+        appointments
+      });
+      Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
+      .then(response => 
+        setState({
+          ...state,
+          appointments
+        })
+       ).catch(e =>
+        console.log("Error message:", e)
+       )
+
     }
     //function to delete appointments
     function deleteInterview(id){
@@ -75,11 +100,11 @@ export default function Application(props) {
           ...state,
           appointments
         })
-       ) .catch(e =>
+       ).catch(e =>
         console.log("Error message:", e)
        )
-
     }
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -109,6 +134,7 @@ export default function Application(props) {
         interviewers = {dailyInterviewers}
         bookInterview = {bookInterview}
         deleteInterview = {deleteInterview}
+        editInterview = {editInterview}
         {...appointment}/>
         )}
         <Appointment key="last" time="5pm"/>
