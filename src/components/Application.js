@@ -30,6 +30,7 @@ export default function Application(props) {
       )
     }, [])
 
+    console.log(state);
     // function to book interviews
     function bookInterview(id, interview) {
       const appointment = {
@@ -47,14 +48,38 @@ export default function Application(props) {
       Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
       .then(response => 
         setState({
-          ...state
+          ...state,
+          appointments
         })
        ) .catch(e =>
         console.log("Error message:", e)
        )
     }
+    //function to delete appointments
+    function deleteInterview(id){
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      setState({
+        ...state,
+        appointments
+      });
+      Promise.all([axios.delete(`http://localhost:8001/api/appointments/${id}`)])
+      .then(response => 
+        setState({
+          ...state,
+          appointments
+        })
+       ) .catch(e =>
+        console.log("Error message:", e)
+       )
 
-    
+    }
   return (
     <main className="layout">
       <section className="sidebar">
@@ -83,6 +108,7 @@ export default function Application(props) {
         key={appointment.id} 
         interviewers = {dailyInterviewers}
         bookInterview = {bookInterview}
+        deleteInterview = {deleteInterview}
         {...appointment}/>
         )}
         <Appointment key="last" time="5pm"/>
