@@ -3,107 +3,29 @@ import axios from "axios"
 import DayList from "./DayList";
 import Appointment from "./Appointments/Index"
 import { getAppointmentsForDay, getInterviewersForDay} from "../helpers/selectors.js"
+// import useVisualMode from "../hooks/useVisualMode";
 import "components/Application.scss";
+import useApplicationData from "../hooks/useApplicationData";
 
 
 export default function Application(props) {
-  // set the state initially
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  })
-  const setDay = day => setState({ ...state, day });
+  console.log(props);
+  const {
+    state,
+    setDay,
+    bookInterview,
+    deleteInterview,
+    editInterview
+  } = useApplicationData();
+ 
+
 
   // get the daily interviewers and appointments
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const dailyInterviewers = getInterviewersForDay(state, state.day);
+  //console.log(dailyAppointments);
+  //const spotsRemaining = calculateSpotsRemaining(dailyAppointments);
 
-  // make axios requests to grab data for days, interviews, and interviewers
-  useEffect(() => {
-    Promise.all([axios.get("http://localhost:8001/api/days"),
-     axios.get("http://localhost:8001/api/appointments"), 
-     axios.get("http://localhost:8001/api/interviewers")])
-     .then(response => 
-      setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data, interviewers: response[2].data }))
-      )
-    }, [])
-
-    console.log(state);
-    // function to book interviews
-    function bookInterview(id, interview) {
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview }
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      setState({
-        ...state,
-        appointments
-      });
-      Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
-      .then(response => 
-        setState({
-          ...state,
-          appointments
-        })
-       ).catch(e =>
-        console.log("Error message:", e)
-       )
-    }
-    //function to edit appointments 
-    function editInterview(id, interview){
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview }
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      setState({
-        ...state,
-        appointments
-      });
-      Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
-      .then(response => 
-        setState({
-          ...state,
-          appointments
-        })
-       ).catch(e =>
-        console.log("Error message:", e)
-       )
-
-    }
-    //function to delete appointments
-    function deleteInterview(id){
-      const appointment = {
-        ...state.appointments[id],
-        interview: null
-      };
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      setState({
-        ...state,
-        appointments
-      });
-      Promise.all([axios.delete(`http://localhost:8001/api/appointments/${id}`)])
-      .then(response => 
-        setState({
-          ...state,
-          appointments
-        })
-       ).catch(e =>
-        console.log("Error message:", e)
-       )
-    }
 
   return (
     <main className="layout">
@@ -119,6 +41,7 @@ export default function Application(props) {
             days={state.days}
             day={state.day}
             setDay={setDay}
+            
             />
           </nav>
           <img

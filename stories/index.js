@@ -10,14 +10,14 @@ import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
-import Appointment from "components/Appointments/index";
-import Header from "components/Appointments/header";
-import Empty from "components/Appointments/empty";
-import Show from "components/Appointments/show";
-import Confirm from "components/Appointments/confirm";
-import Status from "components/Appointments/status";
-import Error from "components/Appointments/error";
-import Form from "components/Appointments/form";
+import Appointment from "components/Appointments/Index";
+import Header from "components/Appointments/Header";
+import Empty from "components/Appointments/Empty";
+import Show from "components/Appointments/Show";
+import Confirm from "components/Appointments/Confirm";
+import Status from "components/Appointments/Status";
+import Error from "components/Appointments/Error";
+import Form from "components/Appointments/Form";
 
 
 
@@ -155,7 +155,8 @@ storiesOf("Appointment", module)
             onConfirm={action("onConfirm")}
             onCancel={action("onCancel")}
           />)
-          .add("Status", () => <Status message="Deleting" />)
+          .add("Deleting", () => <Status message="Deleting" />)
+          .add("Saving", () => <Status message="Saving" />)
           .add("Error", () => <Error
             message="Could not delete appointment"
             onClose={action("onClose")}
