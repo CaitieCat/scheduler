@@ -14,11 +14,22 @@ export default function useApplicationData() {
         Promise.all([axios.get("http://localhost:8001/api/days"),
          axios.get("http://localhost:8001/api/appointments"), 
          axios.get("http://localhost:8001/api/interviewers")])
-         .then(response => 
+         .then((response) => 
+            //console.log("Response:...", response)
+           // console.log(response)
           setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data, interviewers: response[2].data }))
           )
         }, [])
-        console.log(state);
+        
+
+        //function to calculate spots remaining 
+        function updateSpots(day, updatedSpots){
+            for(const each in state.days){
+                if(each.name === day){
+                   
+                }
+            }
+        }
         // function to book interviews
         function bookInterview(id, interview) {
           const appointment = {
@@ -33,7 +44,7 @@ export default function useApplicationData() {
             ...state,
             appointments
           });
-          Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
+          return Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
           .then(response => 
             setState({
               ...state,
@@ -57,7 +68,7 @@ export default function useApplicationData() {
             ...state,
             appointments
           });
-          Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
+          return Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
           .then(response => 
             setState({
               ...state,
@@ -82,7 +93,7 @@ export default function useApplicationData() {
             ...state,
             appointments
           });
-          Promise.all([axios.delete(`http://localhost:8001/api/appointments/${id}`)])
+          return Promise.all([axios.delete(`http://localhost:8001/api/appointments/${id}`)])
           .then(response => 
             setState({
               ...state,

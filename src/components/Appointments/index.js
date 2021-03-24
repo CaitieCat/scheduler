@@ -23,6 +23,7 @@ export default function Appointment(props) {
     const { mode, transition, back } = useVisualMode(
         props.interview ? SHOW : EMPTY
       );
+      console.log(props);
 
         // function to save an interview
     function save(name, interviewer) {
@@ -31,17 +32,21 @@ export default function Appointment(props) {
         interviewer
       };
       transition("SAVING");
-      props.bookInterview(props.id, interview);
-      //transition(interviewSaved)
+      props
+        .bookInterview(props.id, interview)
+            .then(()=> transition("SHOW"))
+            .catch((error)=>transition("ERROR_SAVING", true))
     }
     //function to delete interview
-    function deleting() {
+    function deleting(event) {
         transition("CONFIRM");
-        props.deleteInterview(props.id)
-        //transition("EMPTY")       
+        props
+            .deleteInterview(props.id)
+                .then(()=> transition("EMPTY"))
+                .catch((error)=>transition("ERROR_DELETING", true))
     }
     return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
         <Header 
         time={props.time}
         />

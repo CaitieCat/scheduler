@@ -9,7 +9,6 @@ import useApplicationData from "../hooks/useApplicationData";
 
 
 export default function Application(props) {
-  console.log(props);
   const {
     state,
     setDay,
@@ -17,8 +16,6 @@ export default function Application(props) {
     deleteInterview,
     editInterview
   } = useApplicationData();
- 
-
 
   // get the daily interviewers and appointments
   const dailyAppointments = getAppointmentsForDay(state, state.day);
