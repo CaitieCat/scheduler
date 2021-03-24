@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent, prettyDOM, getByText, getAllByTestId, getByAltText, getByPlaceholderText } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, prettyDOM, getByText, getAllByTestId, getByAltText, getByPlaceholderText, queryByText, queryByAltText } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -33,7 +33,6 @@ it("defaults to Monday and changes the schedule when a new day is selected", () 
 
     fireEvent.click(getByText(appointment, "Save"));
 
-    console.log(prettyDOM(appointment));
   });
 
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
@@ -69,7 +68,7 @@ it("defaults to Monday and changes the schedule when a new day is selected", () 
 
   // 4. Check that the confirmation message is shown.
   expect(
-    getByText(appointment, "Are you sure you would like to delete?")
+    getByText(appointment, "Delete the appointment?")
   ).toBeInTheDocument();
 
   // 5. Click the "Confirm" button on the confirmation.
@@ -105,7 +104,7 @@ it("defaults to Monday and changes the schedule when a new day is selected", () 
   
     // 4. Check that the confirmation message is shown.
     expect(
-      getByText(appointment, "Are you sure you would like to delete?")
+      getByText(appointment, "Delete the appointment?")
     ).toBeInTheDocument();
   
     // 5. Click the "Confirm" button on the confirmation.

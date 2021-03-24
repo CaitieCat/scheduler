@@ -83,11 +83,10 @@ export default {
       }
     }),
     put: jest.fn(url => {
-        if (url === "http://localhost:8001/api/appointments") {
-          return Promise.resolve({
-            status: 204,
-            statusText: "No content",
-          });
-        }
-  })
+          return Promise.resolve({ status: 204, statusText: "No content"});
+        
+  }),
+  delete: jest.fn(url => {
+      return Promise.resolve({ status: 204, statusText: "No content" });
+})
 }
