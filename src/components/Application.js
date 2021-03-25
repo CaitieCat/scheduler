@@ -2,7 +2,6 @@ import React from "react";
 import DayList from "./DayList";
 import Appointment from "./Appointments/Index"
 import { getAppointmentsForDay, getInterviewersForDay} from "../helpers/selectors.js"
-// import useVisualMode from "../hooks/useVisualMode";
 import "components/Application.scss";
 import useApplicationData from "../hooks/useApplicationData";
 
@@ -19,9 +18,6 @@ export default function Application(props) {
   // get the daily interviewers and appointments
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const dailyInterviewers = getInterviewersForDay(state, state.day);
-  //console.log(dailyAppointments);
-  //const spotsRemaining = calculateSpotsRemaining(dailyAppointments);
-
 
   return (
     <main className="layout">
