@@ -39,7 +39,7 @@ export default function Appointment(props) {
     }
     //function to delete interview
     function deleting(event) {
-        transition("CONFIRM");
+        transition("DELETING")
         props
             .deleteInterview(props.id)
                 .then(()=> transition("EMPTY"))
@@ -51,7 +51,7 @@ export default function Appointment(props) {
         time={props.time}
         />
 
-        {mode === CONFIRM && <Confirm  message="Delete the appointment?" onConfirm={() => transition("DELETING")} onCancel = {back}/>}
+        {mode === CONFIRM && <Confirm  message="Delete the appointment?" onConfirm={deleting} onCancel = {back}/>}
         {mode === SAVING && <Status message="Saving"/>}
         {mode === DELETING && <Status message="Deleting"/>}
         {mode === ERROR_DELETE && <Error message="Could not delete appointment"/>}
@@ -64,7 +64,7 @@ export default function Appointment(props) {
     student={props.interview.student}
     interviewerList = {props.interviewers}
     interviewer={props.interview.interviewer}
-    onDelete = {deleting}
+    onDelete = {() => transition("CONFIRM")}
     onEdit = {() => transition("EDIT")}
   />
 )}

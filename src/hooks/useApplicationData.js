@@ -15,20 +15,21 @@ export default function useApplicationData() {
          axios.get("http://localhost:8001/api/appointments"), 
          axios.get("http://localhost:8001/api/interviewers")])
          .then((response) => 
-            //console.log("Response:...", response)
-           // console.log(response)
           setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data, interviewers: response[2].data }))
           )
         }, [])
-        
-
+        console.log(state);
         //function to calculate spots remaining 
-        function updateSpots(day, updatedSpots){
-            for(const each in state.days){
-                if(each.name === day){
-                   
-                }
+        function updateSpots(id){
+          for(const each of state.days){
+            for(const ids of each.appointments){
+              if(ids === id){
+                console.log("it's Monday!")
+                Promise.all([axios.get(`http://localhost:8001/api/days`)])
+                .then(response => setState(prev => ({...prev, days: response[0].data})))
+              }
             }
+          } 
         }
         // function to book interviews
         function bookInterview(id, interview) {
@@ -45,12 +46,14 @@ export default function useApplicationData() {
             appointments
           });
           return Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
-          .then(response => 
-            setState({
-              ...state,
+          .then(response => {
+            setState(prev => ({
+              ...prev,
               appointments
-            })
-           ).catch(e =>
+            }))
+            updateSpots(id)
+          })
+          .catch(e =>
             console.log("Error message:", e)
            )
         }
@@ -94,11 +97,13 @@ export default function useApplicationData() {
             appointments
           });
           return Promise.all([axios.delete(`http://localhost:8001/api/appointments/${id}`)])
-          .then(response => 
+          .then(response => {
             setState({
               ...state,
               appointments
             })
+            updateSpots(id)
+          }
            ).catch(e =>
             console.log("Error message:", e)
            )
