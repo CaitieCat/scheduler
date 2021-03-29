@@ -2,7 +2,7 @@
 
 ## Setup
 
-Install dependencies with `npm install`.
+Install dependencies with `npm install`. The scheduler-api server needs to be run cocurrently and can be found here : https://github.com/lighthouse-labs/scheduler-api
 
 ## Running Webpack Development Server
 
