@@ -39,11 +39,7 @@ export default function useApplicationData() {
             ...state.appointments,
             [id]: appointment
           };
-          setState({
-            ...state,
-            appointments
-          });
-          return Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
+          return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
           .then(response => {
             setState(prev => ({
               ...prev,
@@ -51,9 +47,6 @@ export default function useApplicationData() {
             }))
             updateSpots(id)
           })
-          .catch(e =>
-            console.log("Error message:", e)
-           )
         }
         //function to edit appointments 
         function editInterview(id, interview){
@@ -65,18 +58,12 @@ export default function useApplicationData() {
             ...state.appointments,
             [id]: appointment
           };
-          setState({
-            ...state,
-            appointments
-          });
-          return Promise.all([axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})])
+          return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
           .then(response => 
             setState({
               ...state,
               appointments
             })
-           ).catch(e =>
-            console.log("Error message:", e)
            )
     
         }
@@ -90,11 +77,7 @@ export default function useApplicationData() {
             ...state.appointments,
             [id]: appointment
           };
-          setState({
-            ...state,
-            appointments
-          });
-          return Promise.all([axios.delete(`http://localhost:8001/api/appointments/${id}`)])
+          return axios.delete(`http://localhost:8001/api/appointments/${id}`)
           .then(response => {
             setState({
               ...state,
@@ -102,8 +85,6 @@ export default function useApplicationData() {
             })
             updateSpots(id)
           }
-           ).catch(e =>
-            console.log("Error message:", e)
            )
         }
     return {state, setDay, bookInterview, editInterview, deleteInterview}
