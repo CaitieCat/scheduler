@@ -8,6 +8,7 @@ function InterviewerList(props) {
     const { interviewers } = props;
     const parsedInterviewers = interviewers.map(interviewer => 
         <InterviewerListItem
+        key = {interviewer.id}
         name= {interviewer.name}
         avatar= {interviewer.avatar}
         setInterviewer = {() => props.setInterviewer(interviewer.id)}
